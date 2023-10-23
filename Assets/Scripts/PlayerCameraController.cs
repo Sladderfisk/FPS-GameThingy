@@ -9,19 +9,28 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] private Transform parent;
     [SerializeField] private float mouseSensitivity;
 
+    private float vertical;
+
     private Vector2 input;
+
+    private void Awake()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+    }
 
     private void Update()
     {
-        input.x = Input.GetAxisRaw("Mouse X");
-        input.y = Input.GetAxisRaw("Mouse Y");
+        input.x = Input.GetAxis("Mouse X");
+        input.y = Input.GetAxis("Mouse Y");
+        
+        vertical += input.y * mouseSensitivity * Time.deltaTime;
+        
+        vertical = Mathf.Clamp(vertical, -90, 90);
+        var horizontal = input.x * mouseSensitivity * Time.deltaTime;
 
-        var deltaX = transform.eulerAngles.x + input.x;
+        var eulerAngles = transform.eulerAngles;
         
-        var vertical = Mathf.Clamp(deltaX, -89.9999f, 89.99999f) * mouseSensitivity * Time.deltaTime;
-        var horizontal = input.y * mouseSensitivity * Time.deltaTime;
-        
-        transform.Rotate(Vector3.right, vertical);
+        transform.eulerAngles = new(-vertical, eulerAngles.y, eulerAngles.z);
         parent.Rotate(Vector3.up, horizontal);
     }
 }
