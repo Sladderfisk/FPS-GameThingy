@@ -1,23 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private float size;
+    [SerializeField] private float offset;
     [SerializeField] private float movementSpeed;
     [Space] 
     [SerializeField] private float jumpVelocity;
-    [SerializeField] private float jumpTime;
     [SerializeField] private float airControl;
     [Space]
     [SerializeField] private float gravityAcceleration;
-    [SerializeField] private float maxFallVelocity;
+    [FormerlySerializedAs("maxFallVelocity")] [SerializeField] private float minFallVelocity;
 
     private bool jumpInput;
     private bool isGrounded;
-    private float currentJumpTime;
-    private float currentFallVelocity;
+    private float velocityY;
     private Vector3 input;
     private Vector3 currentMovementVelocity;
     
@@ -32,13 +34,17 @@ public class PlayerMovement : MonoBehaviour
     {
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
+        input = input.normalized;
+        
         jumpInput = Input.GetKeyDown(KeyCode.Space);
-        
-        isGrounded = Controller.isGrounded;
-        
-        Move();
+
+        var ray = new Ray(transform.position, -transform.up);
+        isGrounded = Physics.SphereCast(ray, size,offset);
         Fall();
+        Move();
         Jump();
+        
+        Controller.Move(Vector3.up * velocityY);
     }
 
     private void FixedUpdate()
@@ -49,15 +55,8 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         //if (jumpInput) Debug.Log("Jump");
-        
-        if (jumpInput && isGrounded)
-        {
-            currentJumpTime = 0;
-        }
 
-        currentJumpTime += Time.deltaTime;
-
-        if (currentJumpTime < jumpTime) Controller.Move(Vector3.up * jumpVelocity);
+        if (jumpInput && isGrounded) velocityY += jumpVelocity;
     }
 
     private void Move()
@@ -69,19 +68,27 @@ public class PlayerMovement : MonoBehaviour
         var strafe = right * (movementSpeed * input.x);
 
         if (isGrounded) currentMovementVelocity = Time.deltaTime * (move + strafe);
+        //else currentMovementVelocity = airControl * Time.deltaTime * (move + strafe);
         
         Controller.Move(currentMovementVelocity);
     }
 
     private void Fall()
     {
-        if (isGrounded) currentFallVelocity = 0;
+        if (isGrounded) 
+            velocityY = 0;
+        
         //else currentFallVelocity = Controller.velocity.y;
         
-        currentFallVelocity += gravityAcceleration * Time.deltaTime;
-        if (currentFallVelocity > maxFallVelocity) currentFallVelocity = maxFallVelocity;
+        velocityY -= gravityAcceleration * Time.deltaTime;
+        if (velocityY < -minFallVelocity) velocityY = -minFallVelocity;
 
         var currentVelocity = Controller.velocity;
-        Controller.Move(Vector3.down * currentFallVelocity);
+    }
+
+    private void OnDrawGizmos()
+    {
+        var pos = transform.position;
+        Gizmos.DrawWireSphere(new(pos.x, pos.y - offset, pos.z), size);
     }
 }
