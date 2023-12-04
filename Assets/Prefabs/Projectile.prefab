@@ -146,6 +146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5164c83a7da3001458305df59e6b3be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionParticle: {fileID: 4118916063476612265, guid: ae4a7e9fa9bd41a44b5e3a91c71de1d4,
+    type: 3}
   maxSpeed: 20
-  explosionRadius: 10
+  explosionRadius: 3
   explosionEffect: 10000

@@ -6,8 +6,6 @@ public class HitScanWeapon : Weapon
 {
     [SerializeField] private Transform startFirePosition;
     [SerializeField] private GameObject hitParticle;
-    
-    private float lastFired;
 
     public override bool Fire()
     {

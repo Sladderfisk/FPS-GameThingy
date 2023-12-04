@@ -1,12 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Projectile : MonoBehaviour
 {
+    [SerializeField] private ParticleSystem explosionParticle;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float explosionRadius;
     [SerializeField] private float explosionEffect;
@@ -39,9 +35,17 @@ public class Projectile : MonoBehaviour
         var hit = Physics.OverlapSphere(transform.position, explosionRadius);
         
         PushObjectsBack(hit);
+        ActivateParticle();
         
-        // Play explosion effect!
         Destroy(gameObject);
+    }
+
+    private void ActivateParticle()
+    {
+        var particleObject = Instantiate(explosionParticle.gameObject, transform.position, Quaternion.identity);
+        var particle = particleObject.GetComponent<ParticleSystem>();
+        var shape = particle.shape;
+        shape.radius = explosionRadius;
     }
 
     private void PushObjectsBack(Collider[] objects)
