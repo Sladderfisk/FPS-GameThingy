@@ -22,6 +22,14 @@ public class HitScanWeapon : Weapon
         {
             var particle = Instantiate(hitParticle, hit.point, Quaternion.identity);
             //Debug.Log("Hit:     " + hit.point);
+            
+            if (hit.collider.gameObject.TryGetComponent<IDamageable>(out var enemyHit)) Damage(enemyHit, hit);
         }
+    }
+
+    private void Damage(IDamageable enemy, RaycastHit rayHit)
+    {
+        var hit = new WeaponHit(damage, rayHit.distance, transform, this);
+        enemy.OnHit(hit);
     }
 }

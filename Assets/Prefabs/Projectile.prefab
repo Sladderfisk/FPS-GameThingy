@@ -150,4 +150,5 @@ MonoBehaviour:
     type: 3}
   maxSpeed: 20
   explosionRadius: 3
-  explosionEffect: 10000
+  explosionForceRb: 10000
+  explosionForceCc: 10

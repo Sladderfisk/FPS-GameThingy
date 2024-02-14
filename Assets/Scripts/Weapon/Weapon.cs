@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
+    public float damage;
     public float timeBetweenShots;
     public int magazineSize;
     public int Magazine { get; private set; }
@@ -30,6 +31,7 @@ public abstract class Weapon : MonoBehaviour
         }
 
         Magazine--;
+        Shot();
         return true;
     }
 
@@ -43,5 +45,10 @@ public abstract class Weapon : MonoBehaviour
 
         Magazine = magazineSize;
         Ammunition -= magazineSize;
+    }
+
+    private void Shot()
+    {
+        
     }
 }

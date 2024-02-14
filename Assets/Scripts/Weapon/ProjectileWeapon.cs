@@ -13,10 +13,9 @@ public class ProjectileWeapon : Weapon
     {
         if (!base.Fire()) return false;
 
-        var projectileObject = Instantiate(projectile.gameObject);
-        projectileObject.SetActive(true);
-        var shotProjectile = projectileObject.GetComponent<Projectile>();
-        shotProjectile.Shot(this, firePoint.position, directionTra.forward);
+        var projectileObject = Instantiate(projectile);
+        projectileObject.gameObject.SetActive(true);
+        projectileObject.Shot(this, firePoint.position, directionTra.forward);
         
         return true;
     }
