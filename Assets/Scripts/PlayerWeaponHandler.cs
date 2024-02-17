@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerWeaponHandler : MonoBehaviour
 {
+        [SerializeField] private PlayerCameraController.CameraRecoil recoil;
         [SerializeField] private float scrollWheelBreakPoint;
         [Space]
         [SerializeField] private Weapon[] weapons;
@@ -13,6 +14,8 @@ public class PlayerWeaponHandler : MonoBehaviour
 
         private int currentWeaponIndex;
         private float scrollWheelDelta;
+
+        public Weapon CurrentWeapon => currentWeapon;
 
         private void Start()
         {
@@ -27,14 +30,21 @@ public class PlayerWeaponHandler : MonoBehaviour
         private void Update()
         {
                 HandleWeaponSwitching();
+                FireWeapon();
                 
-                if (Input.GetMouseButtonDown(0)) currentWeapon?.Fire();
-                if (Input.GetKeyDown(KeyCode.F)) CreateWorldText();
+                if (Input.GetKeyDown(KeyCode.R)) currentWeapon?.Reload();
+                if (Input.GetKeyDown(KeyCode.G))
+                {
+                        FindObjectOfType<PlayerCameraController>().ShakeCamera(recoil);
+                }
         }
 
-        private void CreateWorldText()
+        private void FireWeapon()
         {
-                var worldText = Instantiate(worldSpaceText, worldTextCanvas);
+                if (currentWeapon == null) return;
+
+                if (currentWeapon.isAutomatic) { if (Input.GetMouseButton(0)) currentWeapon.Fire(); }
+                else if (Input.GetMouseButtonDown(0)) currentWeapon.Fire();
         }
 
         private void HandleWeaponSwitching()

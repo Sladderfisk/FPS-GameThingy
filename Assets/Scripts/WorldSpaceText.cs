@@ -6,9 +6,8 @@ using UnityEngine;
 
 public class WorldSpaceText : MonoBehaviour
 {
-    [SerializeField] private bool useLifeTime;
-    [SerializeField] private float lifeTime;
-    [SerializeField] private float movementSpeed;
+    private float lifeTime;
+    private float movementSpeed;
 
     private float currentLifeTime;
 
@@ -25,6 +24,14 @@ public class WorldSpaceText : MonoBehaviour
         mCam = Camera.main;
     }
 
+    public static WorldSpaceText Instantiate(WorldSpaceText worldSpaceTextPrefab, Vector3 pos, float lifeTime = Mathf.Infinity, float movementSpeed = 0)
+    {
+        var text = Instantiate(worldSpaceTextPrefab, pos, Quaternion.identity);
+        text.lifeTime = lifeTime;
+        text.movementSpeed = movementSpeed;
+        return text;
+    }
+
     public void ChangeText(string newText)
     {
         myText.text = newText;
@@ -35,8 +42,6 @@ public class WorldSpaceText : MonoBehaviour
         transform.rotation = mCam.transform.rotation;
         transform.Translate(0, movementSpeed * Time.deltaTime, 0);
 
-        if (!useLifeTime) return;
-        
         currentLifeTime += Time.deltaTime;
         if (currentLifeTime > lifeTime) Destroy(gameObject);
     }

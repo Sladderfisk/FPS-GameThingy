@@ -12,6 +12,7 @@ public class EnemyHealthUi : MonoBehaviour
     {
         enemy.OnDamage += OnDamage;
         healthBar.maxValue = enemy.StartHealth;
+        healthBar.value = enemy.StartHealth;
     }
 
     private void OnDamage(WeaponHit hit, float health)
@@ -28,8 +29,8 @@ public class EnemyHealthUi : MonoBehaviour
     private void ShowTextDamage(float damage)
     {
         var textPos = transform.position;
-        textPos += new Vector3(Random.Range(-5, 5), Random.Range(-5, 5), Random.Range(-5, 5));
-        var textObject = Instantiate(damageText, textPos, Quaternion.identity);
+        textPos += new Vector3(Random.Range(-1.0f, 1.0f), Random.Range(1.0f, 1.5f), Random.Range(-1.0f, 1.0f));
+        WorldSpaceText textObject = WorldSpaceText.Instantiate(damageText, textPos, .2f, 10);
         
         textObject.transform.parent = damageTextCanvas;
         
