@@ -46,12 +46,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb28b6b1bb3d1e0488c2ef0fc1275713, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0
+  damage: 100
   timeBetweenShots: 0.5
   reloadTime: 2
   magazineSize: 5
   startAmmunition: 100
   isAutomatic: 0
+  wontReload: 0
+  onHitEffect: {fileID: 0}
   recoil:
     pithStrength: 15
     yawStrength: 0

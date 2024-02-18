@@ -15,7 +15,7 @@ public class ProjectileWeapon : Weapon
 
         var projectileObject = Instantiate(projectile);
         projectileObject.gameObject.SetActive(true);
-        projectileObject.Shot(this, firePoint.position, directionTra.forward);
+        projectileObject.Shot(this, firePoint.position, directionTra.forward, damage);
         
         return true;
     }

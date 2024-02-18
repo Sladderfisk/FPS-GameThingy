@@ -1,17 +1,24 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
-public class PlayerWeaponHandler : MonoBehaviour
+public class PlayerWeaponHandler : MonoBehaviour, IDamageable
 {
+        [SerializeField] private float startHealth;
         [SerializeField] private PlayerCameraController.CameraRecoil recoil;
         [SerializeField] private float scrollWheelBreakPoint;
         [Space]
         [SerializeField] private Weapon[] weapons;
         [SerializeField] private RectTransform worldTextCanvas;
-        [SerializeField] private WorldSpaceText worldSpaceText;
+        [SerializeField] private WorldSpaceText worldSpaceText; 
+        
+        private Volume postProcessing;
 
         private Weapon currentWeapon;
 
+        private float health;
         private int currentWeaponIndex;
         private float scrollWheelDelta;
 
@@ -19,6 +26,10 @@ public class PlayerWeaponHandler : MonoBehaviour
 
         private void Start()
         {
+                postProcessing = FindObjectOfType<Volume>();
+
+                health = startHealth;
+                
                 foreach (var weapon in weapons)
                 {
                         weapon.gameObject.SetActive(false);
@@ -49,7 +60,11 @@ public class PlayerWeaponHandler : MonoBehaviour
 
         private void HandleWeaponSwitching()
         {
-                scrollWheelDelta += Input.mouseScrollDelta.y;
+                if (Input.GetKeyDown(KeyCode.Alpha1)) SwitchWeapon(0);
+                if (Input.GetKeyDown(KeyCode.Alpha2)) SwitchWeapon(1);
+                if (Input.GetKeyDown(KeyCode.Alpha3)) SwitchWeapon(2);
+
+                        scrollWheelDelta += Input.mouseScrollDelta.y;
 
                 if (Mathf.Abs(scrollWheelDelta) < scrollWheelBreakPoint) return;
                 
@@ -57,6 +72,12 @@ public class PlayerWeaponHandler : MonoBehaviour
                 SwitchWeapon(weapons[currentWeaponIndex]);
 
                 scrollWheelDelta = 0;
+        }
+
+        private void SwitchWeapon(int index)
+        {
+                SwitchWeapon(weapons[index]);
+                currentWeaponIndex = index;
         }
 
         private void SwitchWeapon(Weapon newWeapon)
@@ -85,5 +106,17 @@ public class PlayerWeaponHandler : MonoBehaviour
                 else if (newIndex >= length) newIndex -= length;
                 
                 currentWeaponIndex = newIndex;
+        }
+
+        public void OnHit(WeaponHit weaponHit)
+        {
+                health -= weaponHit.damage;
+
+                postProcessing.profile.TryGet(out Vignette vignette);
+                vignette.intensity.value = 1 - health / 100;
+                
+                // Jag ville också ändra saturation men det fungerade inte. Den bettedde sig gätte kånstigt,
+
+                if (health <= 0) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 }

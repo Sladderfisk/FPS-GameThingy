@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float explosionRadius;
     [FormerlySerializedAs("explosionEffect")] [SerializeField] private float explosionForceRb;
     [SerializeField] private float explosionForceCc;
+    [SerializeField] private float damage;
 
     private Vector3 velocity;
 
@@ -19,12 +20,13 @@ public class Projectile : MonoBehaviour
         proRigidbody = GetComponent<Rigidbody>();
     }
 
-    public void Shot(ProjectileWeapon shooter, Vector3 pos, Vector3 dir)
+    public void Shot(ProjectileWeapon shooter, Vector3 pos, Vector3 dir, float damage)
     {
         this.shooter = shooter;
         transform.position = pos;
         transform.LookAt(pos + dir);
         velocity = dir * maxSpeed;
+        this.damage = damage;
     }
 
     private void Update()
@@ -54,6 +56,12 @@ public class Projectile : MonoBehaviour
     {
         foreach (var hit in objects)
         {
+            if (hit.TryGetComponent(out IDamageable entity))
+            {
+                var distance = Vector3.Distance(transform.position, hit.transform.position);
+                entity.OnHit(new ((1 - distance / explosionRadius) * damage, distance, shooter.transform, shooter));
+            }
+            
             var rb = hit.attachedRigidbody;
             if (rb == null)
             {
