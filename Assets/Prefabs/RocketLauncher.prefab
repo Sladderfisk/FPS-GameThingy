@@ -9,13 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8601479628359573036}
-  m_Layer: 0
+  - component: {fileID: 533287085891986219}
+  m_Layer: 3
   m_Name: RocketLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8601479628359573036
 Transform:
   m_ObjectHideFlags: 0
@@ -33,6 +34,33 @@ Transform:
   - {fileID: 3271715602544632296}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &533287085891986219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4009258729780036016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb28b6b1bb3d1e0488c2ef0fc1275713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  timeBetweenShots: 0.5
+  reloadTime: 2
+  magazineSize: 5
+  startAmmunition: 100
+  isAutomatic: 0
+  recoil:
+    pithStrength: 15
+    yawStrength: 0
+    rollStrength: 0
+    duration: 0.06
+  projectile: {fileID: 6079168941603701645, guid: 0228763f2c27e3c45b44ded939fe90b4,
+    type: 3}
+  directionTra: {fileID: 0}
+  firePoint: {fileID: 3271715602544632296}
 --- !u!1 &5628014370867658510
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,7 +70,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3271715602544632296}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LauchPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,18 +102,33 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 788c1bf55258cb34c9c630c7a0d0008c,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.25368
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 788c1bf55258cb34c9c630c7a0d0008c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.25368
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 788c1bf55258cb34c9c630c7a0d0008c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.25368
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 788c1bf55258cb34c9c630c7a0d0008c,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.000000043772
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 788c1bf55258cb34c9c630c7a0d0008c,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.00000017579
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 788c1bf55258cb34c9c630c7a0d0008c,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.030648
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 788c1bf55258cb34c9c630c7a0d0008c,
         type: 3}
@@ -122,10 +165,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: 788c1bf55258cb34c9c630c7a0d0008c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 788c1bf55258cb34c9c630c7a0d0008c,
         type: 3}
       propertyPath: m_Name
       value: RocketLauncher
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 788c1bf55258cb34c9c630c7a0d0008c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513859187771203891, guid: 788c1bf55258cb34c9c630c7a0d0008c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

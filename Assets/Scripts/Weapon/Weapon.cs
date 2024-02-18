@@ -10,6 +10,8 @@ public abstract class Weapon : MonoBehaviour
     public int magazineSize;
     public int startAmmunition;
     public bool isAutomatic;
+    public bool wontReload;
+    public GameObject onHitEffect;
     public PlayerCameraController.CameraRecoil recoil;
 
     public bool IsReloading { get; private set; }
@@ -43,19 +45,22 @@ public abstract class Weapon : MonoBehaviour
 
     public virtual bool Fire()
     {
-        if (IsReloading) return false;
-
-        if (Magazine < 1)
+        if (!wontReload)
         {
-            Reload();
-            return false;
+            if (IsReloading) return false;
+
+            if (Magazine < 1)
+            {
+                Reload();
+                return false;
+            }
         }
         
         var firedDelta = Time.time - lastFired;
         if (firedDelta < timeBetweenShots) return false;
         lastFired = Time.time;
 
-        cameraController.ShakeCamera(recoil);
+        cameraController.RecoilCamera(recoil);
         Magazine--;
         return true;
     }

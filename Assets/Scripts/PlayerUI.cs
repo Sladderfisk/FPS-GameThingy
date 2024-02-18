@@ -13,6 +13,8 @@ public class PlayerUI : MonoBehaviour
 
     private void Update()
     {
+        if (weaponHandler.CurrentWeapon.wontReload) return;
+        
         SetAmmoText();
         SetReloadTimer();
     }

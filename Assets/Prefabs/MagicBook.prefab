@@ -9,13 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8204701932237985484}
-  m_Layer: 0
+  - component: {fileID: 2229867823473622437}
+  m_Layer: 3
   m_Name: MagicBook
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8204701932237985484
 Transform:
   m_ObjectHideFlags: 0
@@ -32,6 +33,34 @@ Transform:
   - {fileID: 7390293708008104437}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2229867823473622437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1982190981855253128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce4803ed803e4847af26c752d3cf35a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 100
+  timeBetweenShots: 0.15
+  reloadTime: 1
+  magazineSize: 32
+  startAmmunition: 100
+  isAutomatic: 1
+  wontReload: 0
+  onHitEffect: {fileID: 0}
+  recoil:
+    pithStrength: 4
+    yawStrength: 0
+    rollStrength: 0
+    duration: 0.05
+  startFirePosition: {fileID: 0}
+  hitParticle: {fileID: 746873048987151377, guid: 120fada593e5670499049d088355e1d1,
+    type: 3}
 --- !u!1001 &6991030854581339678
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -94,6 +123,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MagicBook
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c2328e175c7c0f14f942f7de490d358a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

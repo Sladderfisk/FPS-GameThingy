@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class HitScanWeapon : Weapon
 {
     [SerializeField] private Transform startFirePosition;
-    [SerializeField] private GameObject hitParticle;
 
     public override bool Fire()
     {
@@ -20,9 +20,6 @@ public class HitScanWeapon : Weapon
         var direction = mCam.transform.forward;
         if (Physics.Raycast(startFirePosition.position, direction, out var hit))
         {
-            var particle = Instantiate(hitParticle, hit.point, Quaternion.identity);
-            //Debug.Log("Hit:     " + hit.point);
-            
             if (hit.collider.gameObject.TryGetComponent<IDamageable>(out var enemyHit)) Damage(enemyHit, hit);
         }
     }
@@ -31,5 +28,7 @@ public class HitScanWeapon : Weapon
     {
         var hit = new WeaponHit(damage, rayHit.distance, transform, this);
         enemy.OnHit(hit);
+        
+        Instantiate(onHitEffect, rayHit.point, quaternion.identity);
     }
 }
